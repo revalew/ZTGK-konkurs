@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class AgentAction
 {
   public string Name { get; }
-  public float Cost { get; }
+  public float Cost { get; private set; }
 
   public HashSet<AgentBeliefs> Preconditions{ get; } = new();
   public HashSet<AgentBeliefs> Effects{ get; } = new();

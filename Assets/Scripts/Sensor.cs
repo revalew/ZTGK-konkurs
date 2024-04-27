@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using System.Linq;
+
+public static class GameObjectExtensions
+{
+  /// Returns the object itself if it exists, null otherwise.
+  public static T OrNull<T>(this T obj) where T : UnityEngine.Object => obj ? obj : null;
+}
 
 [RequireComponent(typeof(SphereCollider))] // every sensor has to have a collider of some sort
 public class Sensor : MonoBehaviour
@@ -28,7 +35,6 @@ public class Sensor : MonoBehaviour
     detectionRange.radius = detectionRadius;
   }
 
-  public static T OrNull<T>(this T obj) where T : UnityEngine.Object => obj ? obj : null;
   void Start()
   {
     timer = new CountdownTimer(timerInterval);
@@ -48,7 +54,7 @@ public class Sensor : MonoBehaviour
   void UpdateTargetPosition(GameObject target = null)
   {
     this.target = target;
-    if (IsTargerInRange && (lastKnownPosition != TargetPosition || lastKnownPosition != Vector3.zero))
+    if (IsTargetInRange && (lastKnownPosition != TargetPosition || lastKnownPosition != Vector3.zero))
     {
       lastKnownPosition = TargetPosition;
       OnTargetChanged.Invoke(); // target moved or new target
